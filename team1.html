@@ -1,0 +1,195 @@
+<!--landing page for Team 1-->
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title> Team1 Project </title>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		table th {
+   			padding-top:12px;
+			padding-bottom: 12px;
+			text-align: left;
+			background-color: purple;
+			color: white;
+		}
+		table tr:nth-child(even) { background-color: #f2f2f2; }
+		table td, table th {
+			border: 1px solid #ddd;
+			padding: 8px;
+		}
+		table tr:hover { background-color: #ddd; }	
+		caption{
+			font-weight: bold;
+			font-size: 20px;
+		}
+		table {
+			font-family: "Trebuchet MS", Arial, sans-serif;
+    			border-collapse: collapse;
+    			margin-left: auto;
+			margin-right:auto;
+			text-align:"center";
+			width: 70%;
+			table-layout: auto;
+		}
+	</style>
+</head>
+<body>
+
+<?php
+if(isset($_POST['save'])){
+        $host_add = $_POST['host_add'];
+        $team_db = $_POST['team_db'];
+        //$prefix = mysql_real_escape_string("`~");
+	echo "You put $host_add, $team_db";
+}
+?>
+
+<table>
+	<tr>
+	<caption>reviews</caption>
+		<th>review_id</th>
+    		<th>title_id</th>
+    		<th>periodical_id</th>
+    		<th>rev_date</th>
+    		<th>rating</th>
+    		<th>content</th>
+	</tr>
+	<?php while($row = mysqli_fetch_array($show_reviews)):;?>
+	<tr>
+		<td><?php echo $row[0];?></td>
+		<td><?php echo $row[1];?></td>
+		<td><?php echo $row[2];?></td>
+		<td><?php echo $row[3];?></td>
+		<td><?php echo $row[4];?></td>
+		<td><?php echo $row[5];?></td>
+	</tr>
+	<?php endwhile;?>
+</table>
+<br>
+<br>
+<table>
+	<tr>
+	<caption>titles</caption>
+		<th>title_id</th>
+	     	<th>title</th>
+   	    	<th>type</th>
+	    	<th>pub_id</th>
+	    	<th>price</th>
+	    	<th>advance</th>
+   	    	<th>total_sales</th>
+   	    	<th>notes</th>
+   	    	<th>pubdate</th>
+   	    	<th>contract</th>
+   	    	<th>ag_id</th>
+	</tr>
+	<?php while($row = mysqli_fetch_array($show_titles)):;?>
+	<tr>
+		<td><?php echo $row[0];?></td>
+		<td><?php echo $row[1];?></td>
+		<td><?php echo $row[2];?></td>
+		<td><?php echo $row[3];?></td>
+		<td><?php echo $row[4];?></td>
+		<td><?php echo $row[5];?></td>
+		<td><?php echo $row[6];?></td>
+		<td><?php echo $row[7];?></td>
+		<td><?php echo $row[8];?></td>
+		<td><?php echo $row[9];?></td>
+		<td><?php echo $row[10];?></td>
+	</tr>
+	<?php endwhile;?>
+</table>
+<table>
+	<tr>
+	<caption>customer_sales</caption>
+		<th>store_id</th>
+    		<th>title_id</th>
+    		<th>rating</th>
+    		<th>qty</th>
+    		<th>date</th>
+    		<th>request_sold</th>
+	</tr>
+	<?php while($row = mysqli_fetch_array($show_customer_sales)):;?>
+	<tr>
+		<td><?php echo $row[0];?></td>
+		<td><?php echo $row[1];?></td>
+		<td><?php echo $row[2];?></td>
+		<td><?php echo $row[3];?></td>
+		<td><?php echo $row[4];?></td>
+		<td><?php echo $row[5];?></td>
+	</tr>
+	<?php endwhile;?>
+</table>
+
+<table>
+	<tr>
+	<caption>store_inventories</caption>
+		<th>store_id</th>
+		<th>title_id</th>
+	     	<th>qty</th>
+   	    	<th>minStock</th>
+	</tr>
+	<?php while($row = mysqli_fetch_array($show_store_inventories)):;?>
+	<tr>
+		<td><?php echo $row[0];?></td>
+		<td><?php echo $row[1];?></td>
+		<td><?php echo $row[2];?></td>
+		<td><?php echo $row[3];?></td>
+	</tr>
+	<?php endwhile;?>
+</table>
+<table>
+	<tr>
+	<caption>pending_orders</caption>
+		<th>store_id</th>
+    		<th>ord_num</th>
+    		<th>title_id</th>
+    		<th>qty</th>
+	    	<th>date</th>
+		<th>fulfilled</th>
+	<?php while($row = mysqli_fetch_array($show_pending_orders)):;?>
+	<tr>
+		<td><?php echo $row[0];?></td>
+		<td><?php echo $row[1];?></td>
+		<td><?php echo $row[2];?></td>
+		<td><?php echo $row[3];?></td>
+		<td><?php echo $row[4];?></td>
+		<td><?php echo $row[5];?></td>
+	</tr>
+	<?php endwhile;?>
+</table>
+<table>
+	<tr>
+	<caption>sales</caption>
+		<th>store_id</th>
+    		<th>ord_num</th>
+    		<th>date</th>	
+	</tr>
+	<?php while($row = mysqli_fetch_array($show_sales)):;?>
+	<tr>
+		<td><?php echo $row[0];?></td>
+		<td><?php echo $row[1];?></td>
+		<td><?php echo $row[2];?></td>
+	</tr>
+	<?php endwhile;?>
+</table>
+<table>
+	<tr>
+	<caption>salesdetail</caption>
+		<th>store_id</th>
+		<th>ord_num</th>
+    		<th>title_id</th>
+    		<th>qty</th>
+    		<th>discount</th>	
+	</tr>
+	<?php while($row = mysqli_fetch_array($show_salesdetail)):;?>
+	<tr>
+		<td><?php echo $row[0];?></td>
+		<td><?php echo $row[1];?></td>
+		<td><?php echo $row[2];?></td>
+		<td><?php echo $row[3];?></td>
+		<td><?php echo $row[4];?></td>
+	</tr>
+	<?php endwhile;?>
+</table>
+</body>
+</html>
