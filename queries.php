@@ -15,32 +15,57 @@ $rev_date = '20160911';
 $rating = '5';
 $content = 'Lagercrantz’s real achievement here is the subtle development of Lisbeth’s character; he allows us access to her complex, alienated world but is careful not to remove her mystery and unknowability. Lisbeth Salander remains, in Lagercrantz’s hands, the most enigmatic and fascinating anti-heroine in fiction');
 */
+
 // DELETE entry for DA9543
 $delete_entry = "DELETE FROM store_inventories WHERE title_id='DA9543';";
 $db->query($delete_entry);
+
 // FOREIGN KEY RELATIONSHIP SET UP FOR store_inventories
 $foreignkey_1 = "alter table store_inventories add foreign key(title_id) references titles(title_id);";
 $foreignkey_2 = "alter table store_inventories add foreign key (stor_id) references stores(stor_id);";
 $db->query($foreignkey_1);
 $db->query($foreignkey_2);
+
 /*
 steps followed:
 I fixed store_inventories to add the book I choose because it was not in the store_inventories, but I did this for easiness after I searched for a review.
 */
-$title_1 = "insert into store_inventories values('0736','th1218',500,200);";
-$title_2 = "insert into store_inventories values('5023','th1218',500,400);";
-$title_3 = "insert into store_inventories values('1389','th1218',2000,1500);";
-$add_titles1 = $db->query($title_1);
-$add_titles2 = $db->query($title_2);
-$add_titles3 = $db->query($title_3);
+//$title_1 = "insert into store_inventories values('0736','th1218',500,200);";
+//$title_2 = "insert into store_inventories values('5023','th1218',500,400);";
+//$title_3 = "insert into store_inventories values('1389','th1218',2000,1500);";
+//$add_titles1 = $db->query($title_1);
+//$add_titles2 = $db->query($title_2);
+//$add_titles3 = $db->query($title_3);
 // Then we proceed to do the direction prof. said in homework:
 // 1.	  A review of an existing book is published, so we Insert reviews into data:
-$reviewquery = "insert into reviews values('0011','th1218','int001',20160911,5,'Lagercrantz’s real achievement here is the subtle development of Lisbeth’s character; he allows us access to her complex, alienated world but is careful not to remove her mystery and unknowability. Lisbeth Salander remains, in Lagercrantz’s hands, the most enigmatic and fascinating anti-heroine in fiction');";
-$result = $db->query($reviewquery);
+//$reviewquery = "insert into reviews values('0011','th1218','int001',20160911,5,'Lagercrantz’s real achievement here is the subtle development of Lisbeth’s character; he allows us access to her complex, alienated world but is careful not to remove her mystery and unknowability. Lisbeth Salander remains, in Lagercrantz’s hands, the most enigmatic and fascinating anti-heroine in fiction');";
+//$result = $db->query($reviewquery);
 
-$title_id = "SELECT title_id FROM reviews WHERE rev_date IN (SELECT MAX(rev_date) FROM reviews);";
-$rev_date = "SELECT MAX(rev_date) FROM reviews;";
-echo "$title_id\n$rev_date\n"
+// Find title_id for most recent review
+$select_title_id = "SELECT title_id FROM reviews WHERE rev_date IN (SELECT MAX(rev_date) FROM reviews);";
+$get_title_id = $db->query($select_title_id);
+$title_id_result = mysqli_fetch_row($get_title_id);
+
+// Save title_id as a variable
+$title_id = $title_id_result[0];
+echo "Hello $title_id\n";
+//while ($row = mysqli_fetch_array($title_id)) {
+//echo $row[0];
+//}
+ 
+// Find rev_date for most recent review
+$select_rev_date = "SELECT MAX(rev_date) FROM reviews;";
+$get_rev_date = $db->query($select_rev_date);
+$rev_date_result = mysqli_fetch_array($get_rev_date);
+
+// Save rev_date as a variable
+$rev_date = $rev_date_result[0];
+echo "Hello $rev_date\n";
+
+//while ($row = mysqli_fetch_array($rev_date)) {
+//echo $row[0];
+//}
+
 // 2. resulting in customer sales at 3 or more bookstores:
 $query_2a = "insert into customer_sales values('0736','th1218',5,400,'11-09-16',0);";
 $query_2b = "insert into customer_sales values('5023','th1218',5,200,'11-09-16',0);";
