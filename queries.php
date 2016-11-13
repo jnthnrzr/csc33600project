@@ -49,9 +49,9 @@ $stor_id_2 = '5023';
 $stor_id_3 = '1389';
 
 // 2. resulting in customer sales at 3 or more bookstores:
-$query_2a = "INSERT INTO customer_sales values($stor_id_1,$title_id,5,400,$rev_date,0);";
-$query_2b = "INSERT INTO customer_sales values($stor_id_2,'$title_id,5,200,$rev_date,0);";
-$query_2c = "INSERT INTO customer_sales values($stor_id_3,$title_id,5,1000,$rev_date,0);";
+$query_2a = "INSERT INTO customer_sales VALUES($stor_id_1,$title_id,5,400,$rev_date,0);";
+$query_2b = "INSERT INTO customer_sales VALUES($stor_id_2,'$title_id,5,200,$rev_date,0);";
+$query_2c = "INSERT INTO customer_sales VALUES($stor_id_3,$title_id,5,1000,$rev_date,0);";
 $result_2a = $db->query($query_2a);
 $result_2a = $db->query($query_2b);
 $result_2a = $db->query($query_2c);
@@ -60,9 +60,9 @@ $result_2a = $db->query($query_2c);
 $query_3 = "UPDATE store_inventories, customer_sales SET store_inventories.qty = (store_inventories.qty - customer_sales.qty) WHERE store_inventories.stor_id in ($stor_id_1, $stor_id_2, $stor_id_3) AND store_inventories.title_id = $title_id AND store_inventories.stor_id = customer_sales.store_id AND store_inventories.title_id = customer_sales.title_id;";
 $result_3 = $db->query($query_3);
 
-//$query_3a = "INSERT INTO store_inventories values('0736',$title_id,100,200 );";
-//$query_3b = "INSERT INTO store_inventories values('5023',$title_id,300,400 );";
-//$query_3c = "INSERT INTO store_inventories values('1389',$title_id,1000,1500 );";
+//$query_3a = "INSERT INTO store_inventories VALUES('0736',$title_id,100,200 );";
+//$query_3b = "INSERT INTO store_inventories VALUES('5023',$title_id,300,400 );";
+//$query_3c = "INSERT INTO store_inventories VALUES('1389',$title_id,1000,1500 );";
 //$result_3a = $db->query($query_3a);
 //$result_3b = $db->query($query_3b);
 //$result_3c = $db->query($query_3c);
@@ -73,9 +73,9 @@ $ord_num_2 = 'th0246';
 $ord_num_3 = 'th0256';
 
 // 4.Generate pending orders for this book from each affected bookstore:
-$query_4a = "INSERT INTO pending_orders values($stor_id_1,$ord_num_1,$title_id,300,$rev_datetime,1);";
-$query_4b = "INSERT INTO pending_orders values($stor_id_1,$ord_num_2,$title_id,400,$rev_datetime,1);";
-$query_4c = "INSERT INTO pending_orders values($stor_id_1,$ord_num_3,$title_id,900,$rev_datetime,1);";
+$query_4a = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_1,$title_id,300,$rev_datetime,1);";
+$query_4b = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_2,$title_id,400,$rev_datetime,1);";
+$query_4c = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_3,$title_id,900,$rev_datetime,1);";
 $result_4a = $db->query($query_4a);
 $result_4b = $db->query($query_4b);
 $result_4c = $db->query($query_4c);
@@ -83,17 +83,17 @@ $result_4c = $db->query($query_4c);
 
 
 // 5.generate sales:
-$query_5a = "INSERT INTO sales values($stor_id_1, $ord_num_1, $rev_datetime);";
-$query_5b = "INSERT INTO sales values($stor_id_1, $ord_num_2, $rev_datetime);";
-$query_5c = "INSERT INTO sales values($stor_id_1, $ord_num_3, $rev_datetime);";
+$query_5a = "INSERT INTO sales VALUES($stor_id_1, $ord_num_1, $rev_datetime);";
+$query_5b = "INSERT INTO sales VALUES($stor_id_2, $ord_num_2, $rev_datetime);";
+$query_5c = "INSERT INTO sales VALUES($stor_id_3, $ord_num_3, $rev_datetime);";
 $result_5a = $db->query($query_5a);
 $result_5b = $db->query($query_5b);
 $result_5c = $db->query($query_5c);
 
 // 6.AND salesdetail records:
-$query_6a = "INSERT INTO salesdetail values($stor_id_1, $ord_num_1,$title_id,300,0);";
-$query_6b = "INSERT INTO salesdetail values($stor_id_1, $ord_num_2,$title_id,400,0);";
-$query_6c = "INSERT INTO salesdetail values($stor_id_1, $ord_num_3,$title_id,900,0);";
+$query_6a = "INSERT INTO salesdetail VALUES($stor_id_1, $ord_num_1,$title_id,300,0);";
+$query_6b = "INSERT INTO salesdetail VALUES($stor_id_2, $ord_num_2,$title_id,400,0);";
+$query_6c = "INSERT INTO salesdetail VALUES($stor_id_3, $ord_num_3,$title_id,900,0);";
 $result_6a = $db->query($query_6a);
 $result_6b = $db->query($query_6b);
 $result_6c = $db->query($query_6c);
