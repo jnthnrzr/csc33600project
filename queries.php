@@ -77,19 +77,24 @@ $result_3 = $db->query($query_3);
 // $sale1_qty = $sale1_qty_result[0];
 
 // Find store inventory quantity for sale 1
-$select_store1_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_1 AND store_inventories.title_id = $title_id;";
-echo "select_store1_qty IS $select_store1_qty<br>";
 
-$get_store1_qty = $db->query($select_store1_qty);
-echo "get_store1_qty IS $get_store1_qty<br>";
+// $select_store = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = '$stor_id_1' AND store_inventories.title_id = '$title_id';";
+// $select_store = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = '0736'  AND store_inventories.title_id = 'th1218';";
+// echo "select_store IS $select_store<br>";
 
-$store1_qty_result = mysqli_fetch_row($get_store1_qty);
-echo "store1_qty_result IS $store1_qty_result<br>";
 
-$store1_qty = $store1_qty_result[0];
-echo "store1_qty IS $store1_qty<br>";
+
+// $get_store = $db->query("SELECT qty FROM store_inventories WHERE store_inventories.stor_id = '0736' AND store_inventories.title_id = 'th1218';");
+// $get_store = $db->query($select_store);
+// echo "get_store IS $get_store<br>";
+
+// $store1_qty_result = mysqli_fetch_array($get_store);
+// echo "store1_qty_result IS $store1_qty_result<br>";
+
+// $store1_qty = $store1_qty_result[0];
+// echo "store1_qty IS $store1_qty<br>";
 // Save pending_order_qty1
-$pending_order_qty1 = $sale1_qty - $store1_qty;
+//$pending_order_qty1 = $sale1_qty - $store1_qty;
 
 
 // 4.Generate pending orders for this book from each affected bookstore:
@@ -110,13 +115,13 @@ $pending_order_qty1 = $sale1_qty - $store1_qty;
 // $sale2_qty = $sale2_qty_result[0];
 
 // Find store inventory quantity for sale 2
-$select_store2_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_2 AND store_inventories.title_id = $title_id;";
-$get_store2_qty = $db->query($select_store2_qty);
-$store2_qty_result = mysqli_fetch_array($get_store2_qty);
-$store2_qty = $store2_qty_result[0];
+// $select_store2_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_2 AND store_inventories.title_id = $title_id;";
+// $get_store2_qty = $db->query($select_store2_qty);
+// $store2_qty_result = mysqli_fetch_array($get_store2_qty);
+// $store2_qty = $store2_qty_result[0];
 
 // Save pending_order_qty2
-$pending_order_qty2 = $sale2_qty - $store2_qty;
+// $pending_order_qty2 = $sale2_qty - $store2_qty;
 
 
 // ********************************** SALE 3 **************************************************
@@ -128,18 +133,25 @@ $pending_order_qty2 = $sale2_qty - $store2_qty;
 // $sale3_qty = $sale3_qty_result[0];
 
 // Find store inventory quantity for sale 3
-$select_store3_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_3 AND store_inventories.title_id = $title_id;";
-$get_store3_qty = $db->query($select_store3_qty);
-$store3_qty_result = mysqli_fetch_array($get_store3_qty);
-$store3_qty = $store3_qty_result[0];
+// $select_store3_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_3 AND store_inventories.title_id = $title_id;";
+// $get_store3_qty = $db->query($select_store3_qty);
+// $store3_qty_result = mysqli_fetch_array($get_store3_qty);
+// $store3_qty = $store3_qty_result[0];
 
 // Save pending_order_qty3
-$pending_order_qty3 = $sale3_qty - $store3_qty;
+// $pending_order_qty3 = $sale3_qty - $store3_qty;
+
+
+
+// PENDING ORDER VARIABLES
+$pending_order_qty1 = 300;
+$pending_order_qty2 = 400;
+$pending_order_qty3 = 900;
 
 // ========================================================================= //
 // QUERY 4: Generate pending orders for this book from each affected bookstore:
 $query_4 = "INSERT INTO pending_orders VALUES
-($stor_id_1, $ord_num_1, $title_id, $pending_order_qty1, $rev_datetime ,1), 
+($stor_id_1, $ord_num_1, $title_id, $pending_order_qty1, $rev_datetime, 1), 
 ($stor_id_2, $ord_num_2, $title_id, $pending_order_qty2, $rev_datetime, 1), 
 ($stor_id_3, $ord_num_3, $title_id, $pending_order_qty3, $rev_datetime, 1);";
 $result_4 = $db->query($query_4);
