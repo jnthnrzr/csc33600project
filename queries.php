@@ -57,7 +57,7 @@ $result_2a = $db->query($query_2b);
 $result_2a = $db->query($query_2c);
 
 // 3. These sales result in lowering inventory in that book below re-order threshold:
-$query_3 = "UPDATE store_inventories, customer_sales SET store_inventories.qty = (store_inventories.qty - customer_sales.qty) WHERE store_inventories.stor_id in ($stor_id_1, $stor_id_2, $stor_id_3) AND store_inventories.title_id = $title_id AND store_inventories.stor_id = customer_sales.store_id AND store_inventories.title_id = customer_sales.title_id;"
+$query_3 = "UPDATE store_inventories, customer_sales SET store_inventories.qty = (store_inventories.qty - customer_sales.qty) WHERE store_inventories.stor_id in ($stor_id_1, $stor_id_2, $stor_id_3) AND store_inventories.title_id = $title_id AND store_inventories.stor_id = customer_sales.store_id AND store_inventories.title_id = customer_sales.title_id;";
 $result_3 = $db->query($query_3);
 
 //$query_3a = "INSERT INTO store_inventories values('0736',$title_id,100,200 );";
