@@ -28,20 +28,19 @@ $title_id_result = mysqli_fetch_row($get_title_id);
 
 // Save title_id as a variable
 $title_id = $title_id_result[0];
-//echo "Hello $title_id\n";
+// echo "Hello title id result is $title_id";
  
 // Find rev_date for most recent review
 $select_rev_date = "SELECT MAX(rev_date) FROM reviews;";
 $get_rev_date = $db->query($select_rev_date);
-$rev_date_result = mysqli_fetch_array($get_rev_date);
+$rev_date_result = mysqli_fetch_row($get_rev_date);
 
 // Save rev_date as a variable
 $rev_date = $rev_date_result[0];
-//echo "Hello $rev_date\n";
+// echo "rev_date is $rev_date as a string";
 
 // Save rev_datetime as a variable
 $rev_datetime = date('Y-m-d H:i:s', strtotime($rev_date));
-//echo "Hello datetime is $rev_datetime";
 
 // Save stor_ids as variables
 $stor_id_1 = '0736';
@@ -58,23 +57,16 @@ $sale1_qty = 400;
 $sale2_qty = 200;
 $sale3_qty = 1000;
 
-// 2. resulting in customer sales at 3 or more bookstores:
+// QUERY 2. resulting in customer sales at 3 or more bookstores:
 $query_2 = "INSERT INTO customer_sales VALUES
 ($stor_id_1, $title_id, 5, $sale1_qty, $rev_date, 0), 
 ($stor_id_2, $title_id, 5, $sale2_qty, $rev_date, 0),
 ($stor_id_3, $title_id, 5, $sale3_qty, $rev_date, 0);";
 $result_2 = $db->query($query_2);
 
-// 3. These sales result in lowering inventory in that book below re-order threshold:
+// QUERY 3. These sales result in lowering inventory in that book below re-order threshold:
 $query_3 = "UPDATE store_inventories, customer_sales SET store_inventories.qty = (store_inventories.qty - customer_sales.qty) WHERE store_inventories.stor_id in ($stor_id_1, $stor_id_2, $stor_id_3) AND store_inventories.title_id = $title_id AND store_inventories.stor_id = customer_sales.store_id AND store_inventories.title_id = customer_sales.title_id;";
 $result_3 = $db->query($query_3);
-
-//$query_3a = "INSERT INTO store_inventories VALUES('0736',$title_id,100,200 );";
-//$query_3b = "INSERT INTO store_inventories VALUES('5023',$title_id,300,400 );";
-//$query_3c = "INSERT INTO store_inventories VALUES('1389',$title_id,1000,1500 );";
-//$result_3a = $db->query($query_3a);
-//$result_3b = $db->query($query_3b);
-//$result_3c = $db->query($query_3c);
 
 // ********************************** SALE 1 **************************************************
 
@@ -86,10 +78,16 @@ $result_3 = $db->query($query_3);
 
 // Find store inventory quantity for sale 1
 $select_store1_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_1 AND store_inventories.title_id = $title_id;";
-$get_store1_qty = $db->query($select_store1_qty);
-$store1_qty_result = mysqli_fetch_array($get_store1_qty);
-$store1_qty = $store1_qty_result[0];
+echo "select_store1_qty IS $select_store1_qty<br>";
 
+$get_store1_qty = $db->query($select_store1_qty);
+echo "get_store1_qty IS $get_store1_qty<br>";
+
+$store1_qty_result = mysqli_fetch_row($get_store1_qty);
+echo "store1_qty_result IS $store1_qty_result<br>";
+
+$store1_qty = $store1_qty_result[0];
+echo "store1_qty IS $store1_qty<br>";
 // Save pending_order_qty1
 $pending_order_qty1 = $sale1_qty - $store1_qty;
 
