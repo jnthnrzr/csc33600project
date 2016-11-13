@@ -53,14 +53,17 @@ $ord_num_1 = 'th0236';
 $ord_num_2 = 'th0246';
 $ord_num_3 = 'th0256';
 
+// Save sale quantity as variables
+$sale1_qty = 400;
+$sale2_qty = 200;
+$sale3_qty = 1000;
 
 // 2. resulting in customer sales at 3 or more bookstores:
-$query_2a = "INSERT INTO customer_sales VALUES($stor_id_1,$title_id,5,400,$rev_date,0);";
-$query_2b = "INSERT INTO customer_sales VALUES($stor_id_2,'$title_id,5,200,$rev_date,0);";
-$query_2c = "INSERT INTO customer_sales VALUES($stor_id_3,$title_id,5,1000,$rev_date,0);";
-$result_2a = $db->query($query_2a);
-$result_2a = $db->query($query_2b);
-$result_2a = $db->query($query_2c);
+$query_2 = "INSERT INTO customer_sales VALUES
+($stor_id_1, $title_id, 5, $sale1_qty, $rev_date, 0), 
+($stor_id_2, $title_id, 5, $sale2_qty, $rev_date, 0),
+($stor_id_3, $title_id, 5, $sale3_qty, $rev_date, 0);";
+$result_2 = $db->query($query_2);
 
 // 3. These sales result in lowering inventory in that book below re-order threshold:
 $query_3 = "UPDATE store_inventories, customer_sales SET store_inventories.qty = (store_inventories.qty - customer_sales.qty) WHERE store_inventories.stor_id in ($stor_id_1, $stor_id_2, $stor_id_3) AND store_inventories.title_id = $title_id AND store_inventories.stor_id = customer_sales.store_id AND store_inventories.title_id = customer_sales.title_id;";
@@ -76,10 +79,10 @@ $result_3 = $db->query($query_3);
 // ********************************** SALE 1 **************************************************
 
 // Find customer sales 1 quantity 
-$select_sale1_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_1 AND customer_sales.title_id = $title_id;";
-$get_sale1_qty = $db->query($select_sale1_qty);
-$sale1_qty_result = mysqli_fetch_array($get_sale1_qty);
-$sale1_qty = $sale1_qty_result[0];
+// $select_sale1_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_1 AND customer_sales.title_id = $title_id;";
+// $get_sale1_qty = $db->query($select_sale1_qty);
+// $sale1_qty_result = mysqli_fetch_array($get_sale1_qty);
+// $sale1_qty = $sale1_qty_result[0];
 
 // Find store inventory quantity for sale 1
 $select_store1_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_1 AND store_inventories.title_id = $title_id;";
@@ -103,10 +106,10 @@ $pending_order_qty1 = $sale1_qty - $store1_qty;
 
 
 // Find customer sales 2 quantity
-$select_sale2_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_2 AND customer_sales.title_id = $title_id;";
-$get_sale2_qty = $db->query($select_sale2_qty);
-$sale2_qty_result = mysqli_fetch_array($get_sale2_qty);
-$sale2_qty = $sale2_qty_result[0];
+// $select_sale2_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_2 AND customer_sales.title_id = $title_id;";
+// $get_sale2_qty = $db->query($select_sale2_qty);
+// $sale2_qty_result = mysqli_fetch_array($get_sale2_qty);
+// $sale2_qty = $sale2_qty_result[0];
 
 // Find store inventory quantity for sale 2
 $select_store2_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_2 AND store_inventories.title_id = $title_id;";
@@ -121,10 +124,10 @@ $pending_order_qty2 = $sale2_qty - $store2_qty;
 // ********************************** SALE 3 **************************************************
 
 // Find customer sales 3 quantity
-$select_sale3_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_3 AND customer_sales.title_id = $title_id;";
-$get_sale3_qty = $db->query($select_sale3_qty);
-$sale3_qty_result = mysqli_fetch_array($get_sale3_qty);
-$sale3_qty = $sale3_qty_result[0];
+// $select_sale3_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_3 AND customer_sales.title_id = $title_id;";
+// $get_sale3_qty = $db->query($select_sale3_qty);
+// $sale3_qty_result = mysqli_fetch_array($get_sale3_qty);
+// $sale3_qty = $sale3_qty_result[0];
 
 // Find store inventory quantity for sale 3
 $select_store3_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_3 AND store_inventories.title_id = $title_id;";
