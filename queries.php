@@ -38,6 +38,9 @@ $add_titles3 = $db->query($title_3);
 $reviewquery = "insert into reviews values('0011','th1218','int001',20160911,5,'Lagercrantz’s real achievement here is the subtle development of Lisbeth’s character; he allows us access to her complex, alienated world but is careful not to remove her mystery and unknowability. Lisbeth Salander remains, in Lagercrantz’s hands, the most enigmatic and fascinating anti-heroine in fiction');";
 $result = $db->query($reviewquery);
 
+$title_id = "SELECT title_id FROM reviews WHERE rev_date IN (SELECT MAX(rev_date) FROM reviews);";
+$rev_date = "SELECT MAX(rev_date) FROM reviews;";
+echo "$title_id\n$rev_date\n"
 // 2. resulting in customer sales at 3 or more bookstores:
 $query_2a = "insert into customer_sales values('0736','th1218',5,400,'11-09-16',0);";
 $query_2b = "insert into customer_sales values('5023','th1218',5,200,'11-09-16',0);";
@@ -112,9 +115,9 @@ $show_sales = $db->query("SELECT * FROM sales;");
 $show_salesdetail = $db->query("SELECT * FROM salesdetail;");
 
 $tables = array(
-"reviews", 
-"titles", 
-"customer_sales", 
+"reviews",
+"titles",
+"customer_sales",
 "store_inventories",
 "pending_orders",
 "sales",
