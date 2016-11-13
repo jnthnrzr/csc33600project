@@ -2,6 +2,9 @@
 // Use database authentication information for login
 require "settings.php";
 
+// Set default timezone, required for date function
+date_default_timezone_set('America/New_York');
+
 // Connect to the team database F16336team1
 $db = new mysqli($host, $user, $pass, $team_db);
 if ($db->connect_error) {
@@ -25,7 +28,7 @@ $title_id_result = mysqli_fetch_row($get_title_id);
 
 // Save title_id as a variable
 $title_id = $title_id_result[0];
-echo "Hello $title_id\n";
+//echo "Hello $title_id\n";
  
 // Find rev_date for most recent review
 $select_rev_date = "SELECT MAX(rev_date) FROM reviews;";
@@ -34,33 +37,22 @@ $rev_date_result = mysqli_fetch_array($get_rev_date);
 
 // Save rev_date as a variable
 $rev_date = $rev_date_result[0];
-echo "Hello $rev_date\n";
-
-// Set default timezone
-date_default_timezone_set('America/New_York');
+//echo "Hello $rev_date\n";
 
 // Save rev_datetime as a variable
 $rev_datetime = date('Y-m-d H:i:s', strtotime($rev_date));
-echo "Hello datetime is $rev_datetime";
+//echo "Hello datetime is $rev_datetime";
 
 // Save stor_ids as variables
 $stor_id_1 = '0736';
 $stor_id_2 = '5023';
 $stor_id_3 = '1389';
 
-// Find sale_1_qty 
-$select_sale1_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_1 AND customer_sales.title_id = title_id;";
-$get_sale1_qty = $db->query($select_sale1_qty);
-$sale1_qty_result = mysqli_fetch_array($get_sale1_qty);
-// Save sale_1 qty as a variable
-$sale1_qty = $sale1_qty_result[0];
-$select_store1_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_1 AND store_inventories.title_id = title_id;";
-$get_store1_qty = $db->query($select_store1_qty);
-$store1_qty_result = mysqli_fetch_array($get_store1_qty);
+// Save ord_num as variables
+$ord_num_1 = 'th0236';
+$ord_num_2 = 'th0246';
+$ord_num_3 = 'th0256';
 
-// Save store_1 qty as a variable
-$store1_qty = $store1_qty_result[0];
-$query_4a = "insert into pending_orders values($stor_id_1, 'th0236', $title_id, $sale1_qty - $store1_qty,$rev_datetime,1);";
 
 // 2. resulting in customer sales at 3 or more bookstores:
 $query_2a = "INSERT INTO customer_sales VALUES($stor_id_1,$title_id,5,400,$rev_date,0);";
@@ -81,19 +73,76 @@ $result_3 = $db->query($query_3);
 //$result_3b = $db->query($query_3b);
 //$result_3c = $db->query($query_3c);
 
-// Save ord_num as variables
-$ord_num_1 = 'th0236';
-$ord_num_2 = 'th0246';
-$ord_num_3 = 'th0256';
+// ********************************** SALE 1 **************************************************
+
+// Find customer sales 1 quantity 
+$select_sale1_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_1 AND customer_sales.title_id = $title_id;";
+$get_sale1_qty = $db->query($select_sale1_qty);
+$sale1_qty_result = mysqli_fetch_array($get_sale1_qty);
+$sale1_qty = $sale1_qty_result[0];
+
+// Find store inventory quantity for sale 1
+$select_store1_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_1 AND store_inventories.title_id = $title_id;";
+$get_store1_qty = $db->query($select_store1_qty);
+$store1_qty_result = mysqli_fetch_array($get_store1_qty);
+$store1_qty = $store1_qty_result[0];
+
+// Save pending_order_qty1
+$pending_order_qty1 = $sale1_qty - $store1_qty;
+
 
 // 4.Generate pending orders for this book from each affected bookstore:
-$query_4a = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_1,$title_id,300,$rev_datetime,1);";
-$query_4b = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_2,$title_id,400,$rev_datetime,1);";
-$query_4c = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_3,$title_id,900,$rev_datetime,1);";
-$result_4a = $db->query($query_4a);
-$result_4b = $db->query($query_4b);
-$result_4c = $db->query($query_4c);
+// $query_4a = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_1,$title_id,300,$rev_datetime,1);";
+// $query_4b = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_2,$title_id,400,$rev_datetime,1);";
+// $query_4c = "INSERT INTO pending_orders VALUES($stor_id_1,$ord_num_3,$title_id,900,$rev_datetime,1);";
+// $result_4a = $db->query($query_4a);
+// $result_4b = $db->query($query_4b);
+// $result_4c = $db->query($query_4c);
 
+// ********************************** SALE 2 **************************************************
+
+
+// Find customer sales 2 quantity
+$select_sale2_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_2 AND customer_sales.title_id = $title_id;";
+$get_sale2_qty = $db->query($select_sale2_qty);
+$sale2_qty_result = mysqli_fetch_array($get_sale2_qty);
+$sale2_qty = $sale2_qty_result[0];
+
+// Find store inventory quantity for sale 2
+$select_store2_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_2 AND store_inventories.title_id = $title_id;";
+$get_store2_qty = $db->query($select_store2_qty);
+$store2_qty_result = mysqli_fetch_array($get_store2_qty);
+$store2_qty = $store2_qty_result[0];
+
+// Save pending_order_qty2
+$pending_order_qty2 = $sale2_qty - $store2_qty;
+
+
+// ********************************** SALE 3 **************************************************
+
+// Find customer sales 3 quantity
+$select_sale3_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_3 AND customer_sales.title_id = $title_id;";
+$get_sale3_qty = $db->query($select_sale3_qty);
+$sale3_qty_result = mysqli_fetch_array($get_sale3_qty);
+$sale3_qty = $sale3_qty_result[0];
+
+// Find store inventory quantity for sale 3
+$select_store3_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_3 AND store_inventories.title_id = $title_id;";
+$get_store3_qty = $db->query($select_store3_qty);
+$store3_qty_result = mysqli_fetch_array($get_store3_qty);
+$store3_qty = $store3_qty_result[0];
+
+// Save pending_order_qty3
+$pending_order_qty3 = $sale3_qty - $store3_qty;
+
+// ========================================================================= //
+// QUERY 4: Generate pending orders for this book from each affected bookstore:
+$query_4 = "INSERT INTO pending_orders VALUES
+($stor_id_1, $ord_num_1, $title_id, $pending_order_qty1, $rev_datetime ,1), 
+($stor_id_2, $ord_num_2, $title_id, $pending_order_qty2, $rev_datetime, 1), 
+($stor_id_3, $ord_num_3, $title_id, $pending_order_qty3, $rev_datetime, 1);";
+$result_4 = $db->query($query_4);
+// ========================================================================= //
 
 
 // 5.generate sales:
