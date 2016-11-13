@@ -53,13 +53,14 @@ $result_2a = $db->query($query_2c);
 
 // 3. These sales result in lowering inventory in that book below re-order threshold:
 $query_3 = "UPDATE store_inventories, customer_sales SET store_inventories.qty = (store_inventories.qty - customer_sales.qty) WHERE store_inventories.stor_id in ('1389','5023','0736') AND store_inventories.title_id='th1218' AND store_inventories.stor_id = customer_sales.store_id AND store_inventories.title_id = customer_sales.title_id;"
+$result_3 = $db->query($query_3);
 
-$query_3a = "insert into store_inventories values('0736',$title_id,100,200 );";
-$query_3b = "insert into store_inventories values('5023',$title_id,300,400 );";
-$query_3c = "insert into store_inventories values('1389',$title_id,1000,1500 );";
-$result_3a = $db->query($query_3a);
-$result_3b = $db->query($query_3b);
-$result_3c = $db->query($query_3c);
+//$query_3a = "insert into store_inventories values('0736',$title_id,100,200 );";
+//$query_3b = "insert into store_inventories values('5023',$title_id,300,400 );";
+//$query_3c = "insert into store_inventories values('1389',$title_id,1000,1500 );";
+//$result_3a = $db->query($query_3a);
+//$result_3b = $db->query($query_3b);
+//$result_3c = $db->query($query_3c);
 
 // 4.Generate pending orders for this book from each affected bookstore:
 $query_4a = "insert into pending_orders values('0736','th0236',$title_id,300,$rev_datetime,1);";
