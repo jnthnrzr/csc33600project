@@ -48,6 +48,20 @@ $stor_id_1 = '0736';
 $stor_id_2 = '5023';
 $stor_id_3 = '1389';
 
+// Find sale_1_qty 
+$select_sale1_qty = "SELECT qty FROM customer_sales WHERE customer_sales.store_id = $stor_id_1 AND customer_sales.title_id = title_id;";
+$get_sale1_qty = $db->query($select_sale1_qty);
+$sale1_qty_result = mysqli_fetch_array($get_sale1_qty);
+// Save sale_1 qty as a variable
+$sale1_qty = $sale1_qty_result[0];
+$select_store1_qty = "SELECT qty FROM store_inventories WHERE store_inventories.stor_id = $stor_id_1 AND store_inventories.title_id = title_id;";
+$get_store1_qty = $db->query($select_store1_qty);
+$store1_qty_result = mysqli_fetch_array($get_store1_qty);
+
+// Save store_1 qty as a variable
+$store1_qty = $store1_qty_result[0];
+$query_4a = "insert into pending_orders values($stor_id_1, 'th0236', $title_id, $sale1_qty - $store1_qty,$rev_datetime,1);";
+
 // 2. resulting in customer sales at 3 or more bookstores:
 $query_2a = "INSERT INTO customer_sales VALUES($stor_id_1,$title_id,5,400,$rev_date,0);";
 $query_2b = "INSERT INTO customer_sales VALUES($stor_id_2,'$title_id,5,200,$rev_date,0);";
