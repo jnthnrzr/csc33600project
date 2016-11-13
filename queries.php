@@ -142,11 +142,12 @@ $result_3 = $db->query($query_3);
 // $pending_order_qty3 = $sale3_qty - $store3_qty;
 
 
-
-// PENDING ORDER VARIABLES
-$pending_order_qty1 = 300;
-$pending_order_qty2 = 400;
-$pending_order_qty3 = 900;
+// //////////////////////////
+// PENDING ORDER VARIABLES //
+$pending_order_qty1 = 300; //
+$pending_order_qty2 = 400; //
+$pending_order_qty3 = 900; //
+// //////////////////////////
 
 // ========================================================================= //
 // QUERY 4: Generate pending orders for this book from each affected bookstore:
@@ -157,50 +158,41 @@ $query_4 = "INSERT INTO pending_orders VALUES
 $result_4 = $db->query($query_4);
 // ========================================================================= //
 
+// ==================================== //
+// QUERY 5: Generate sales records:
+$query_5 = "INSERT INTO sales VALUES
+($stor_id_1, $ord_num_1, $rev_datetime), 
+($stor_id_2, $ord_num_2, $rev_datetime), 
+($stor_id_3, $ord_num_3, $rev_datetime);";
+$result_5 = $db->query($query_5);
+// ==================================== //
 
-// 5.generate sales:
-$query_5a = "INSERT INTO sales VALUES($stor_id_1, $ord_num_1, $rev_datetime);";
-$query_5b = "INSERT INTO sales VALUES($stor_id_2, $ord_num_2, $rev_datetime);";
-$query_5c = "INSERT INTO sales VALUES($stor_id_3, $ord_num_3, $rev_datetime);";
-$result_5a = $db->query($query_5a);
-$result_5b = $db->query($query_5b);
-$result_5c = $db->query($query_5c);
+// ====================================== //
+// QUERY 6: Generate salesdetail records:
+$query_6 = "INSERT INTO salesdetail VALUES 
+($stor_id_1, $ord_num_1,$title_id,300,0), 
+($stor_id_2, $ord_num_2,$title_id,400,0), 
+($stor_id_3, $ord_num_3,$title_id,900,0);";
+$result_6 = $db->query($query_6);
+// ====================================== //
 
-// 6.AND salesdetail records:
-$query_6a = "INSERT INTO salesdetail VALUES($stor_id_1, $ord_num_1,$title_id,300,0);";
-$query_6b = "INSERT INTO salesdetail VALUES($stor_id_2, $ord_num_2,$title_id,400,0);";
-$query_6c = "INSERT INTO salesdetail VALUES($stor_id_3, $ord_num_3,$title_id,900,0);";
-$result_6a = $db->query($query_6a);
-$result_6b = $db->query($query_6b);
-$result_6c = $db->query($query_6c);
-
-// 7.set pending orders to fulfilled:
+// ====================================== //
+// QUERY 7: Set pending orders to fulfilled:
 $query_7 = "UPDATE pending_orders SET fulfilled = 0 WHERE stor_id in ($stor_id_1, $stor_id_2, $stor_id_3) AND title_id=$title_id;";
 $result_7 = $db->query($query_7);
+// ===================================== //
 
-//$query_7a = "UPDATE pending_orders set fulfilled=0 WHERE stor_id='0736' AND title_id=$title_id;";
-//$query_7b = "UPDATE pending_orders set fulfilled=0 WHERE stor_id='5023' AND title_id=$title_id;";
-//$query_7c = "UPDATE pending_orders set fulfilled=0 WHERE stor_id='1389' AND title_id=$title_id;";
-//$result_7a = $db->query($query_7a);
-//$result_7b = $db->query($query_7b);
-//$result_7c = $db->query($query_7c);
+// ================================ //
+// QUERY 8: UPDATE the bookstore inventories:
+$query_8 = "UPDATE store_inventories set qty=300 WHERE stor_id IN ($stor_id_1, $stor_id_2, $stor_id_3) AND title_id = $title_id;";
+$result_8 = $db->query($query_8);
+// =============================== //
 
-// 8.UPDATE the bookstore inventories:
-$query_8a = "UPDATE store_inventories set qty=300 WHERE stor_id='0736' AND title_id=$title_id;";
-$query_8b = "UPDATE store_inventories set qty=400 WHERE stor_id='5023' AND title_id=$title_id;";
-$query_8c = "UPDATE store_inventories set qty=900 WHERE stor_id='1389' AND title_id=$title_id;";
-$result_8a = $db->query($query_8a);
-$result_8b = $db->query($query_8b);
-$result_8c = $db->query($query_8c);
-
-// 9. delete entries from pending_orders
-$query_9a = "DELETE FROM pending_orders WHERE stor_id='0736' AND title_id=$title_id";
-$query_9b = "DELETE FROM pending_orders WHERE stor_id='5023' AND title_id=$title_id";
-$query_9c = "DELETE FROM pending_orders WHERE stor_id='1389' AND title_id=$title_id";
-$result_9a = $db->query($query_9a);
-$result_9b = $db->query($query_9b);
-$result_9c = $db->query($query_9c);
-
+// ======================================== //
+// QUERY 9: Delete entries from pending_orders
+$query_9 = "DELETE FROM pending_orders WHERE stor_id IN ($stor_id_1, $stor_id_2, $stor_id_3) AND title_id=$title_id";
+$result_9 = $db->query($query_9);
+// ======================================= //
 
 $show_reviews = $db->query("SELECT * FROM reviews;");
 $show_titles = $db->query("SELECT * FROM titles;");
@@ -219,6 +211,5 @@ $TABLEs = array(
 "sales",
 "salesdetail"
 );
-$count = $db->query("SELECT COUNT(*) FROM pending_orders");
 include('team1.html');
 ?>
