@@ -85,9 +85,9 @@ while($row = mysqli_fetch_assoc($minStock_result)) {
 }
 echo "MINSTOCK VALUES ARE $minStock[0], $minStock[1], $minStock[2]<hr>";
 
-$customer_sale1_qty = $base_sale_qty[0] + $minStock[0];
-$customer_sale2_qty = $base_sale_qty[1] + $minStock[1];
-$customer_sale3_qty = $base_sale_qty[2] + $minStock[2];
+$customer_sale1_qty = $base_sale_qty[0]; // + $minStock[0];
+$customer_sale2_qty = $base_sale_qty[1]; //  + $minStock[1];
+$customer_sale3_qty = $base_sale_qty[2]; // + $minStock[2];
 echo "CUSTOMER SALE QTY ARE $customer_sale1_qty, $customer_sale2_qty, $customer_sale3_qty<hr>";
 
 // QUERY 2. resulting in customer sales at 3 or more bookstores:
@@ -116,7 +116,9 @@ $store1_qty = $store1_qty_result[0];
 echo "STORE INVENTORY QTY1 IS $store1_qty<br>";
 
 // Save pending_order_qty1
-$pending_order_qty1 = $customer_sale1_qty - $store1_qty;
+// $pending_order_qty1 = $customer_sale1_qty - $store1_qty;
+$pending_order_qty1 = abs($store1_qty - $minStock[0]);
+// echo "CUSTOMER ORDER QTY1 IS $customer_sale1_qty<br>";
 echo "PENDING ORDER QTY1 IS $pending_order_qty1<br>";
 
 // ********************************** SALE 2 **************************************************
@@ -132,7 +134,9 @@ $store2_qty = $store2_qty_result[0];
 echo "STORE INVENTORY QTY2 IS $store2_qty<br>";
 
 // Save pending_order_qty2
-$pending_order_qty2 = $customer_sale2_qty - $store2_qty;
+// $pending_order_qty2 = $customer_sale2_qty - $store2_qty;
+$pending_order_qty2 = abs($store2_qty - $minStock[1]);
+// echo "CUSTOMER ORDER QTY2 IS $customer_sale2_qty<br>";
 echo "PENDING ORDER QTY2 IS $pending_order_qty2<br>";
 
 // ********************************** SALE 3 **************************************************
@@ -147,7 +151,9 @@ $store3_qty = $store3_qty_result[0];
 echo "STORE INVENTORY QTY3 IS $store3_qty<br>";
  
 // Save pending_order_qty3
-$pending_order_qty3 = $customer_sale3_qty - $store3_qty;
+//$pending_order_qty3 = $customer_sale3_qty - $store3_qty;
+$pending_order_qty3 = abs($store3_qty - $minStock[2]);
+// echo "CUSTOMER ORDER QTY3 IS $customer_sale3_qty<br>";
 echo "PENDING ORDER QTY3 IS $pending_order_qty3<br>";
 
 // ========================================================================= //
