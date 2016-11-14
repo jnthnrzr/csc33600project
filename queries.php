@@ -71,13 +71,14 @@ $get_base_sale_qty =
 echo "$get_base_sale_qty<br>";
 $base_sale_qty_result = $db->query($get_base_sale_qty);
 $base_sale_qty = array();
-while ($base_sale_qty = mysqli_fetch_array($base_sale_qty_result));
-echo "$base_sale_qty HERE<br>";
-
+while($row =mysqli_fetch_assoc($base_sale_qty_result)) {
+	$base_sale_qty[] = $row['GREATEST(ABS(qty), minStock)'];
+}
+// echo "$base_sale_qty[1] HERE <br>";
 $customer_sale1_qty = $base_sale_qty[0] + 100;
 $customer_sale2_qty = $base_sale_qty[1] + 100;
 $customer_sale3_qty = $base_sale_qty[2] + 100;
-echo "customer sale qty variables are $customer_sale1_qty, $customer_sale2_qty, $customer_sale3_qty<br>";
+echo "CUSTOMER SALE QTY VARIABLES ARE $customer_sale1_qty, $customer_sale2_qty, $customer_sale3_qty<br>";
 
 // QUERY 2. resulting in customer sales at 3 or more bookstores:
 $query_2 = "INSERT INTO customer_sales VALUES
