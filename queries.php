@@ -70,7 +70,8 @@ $get_base_sale_qty =
 "SELECT GREATEST(ABS(qty), minStock) FROM store_inventories WHERE stor_id IN ('$stor_id_1', '$stor_id_2', '$stor_id_3') AND title_id = '$title_id';";
 echo "$get_base_sale_qty<br>";
 $base_sale_qty_result = $db->query($get_base_sale_qty);
-$base_sale_qty = mysqli_fetch_array($base_sale_qty_result);
+$base_sale_qty = array();
+while ($base_sale_qty = mysqli_fetch_array($base_sale_qty_result));
 echo "$base_sale_qty HERE<br>";
 
 $customer_sale1_qty = $base_sale_qty[0] + 100;
