@@ -30,6 +30,11 @@ echo "$select_title_id<br>";
 $get_title_id = $db->query($select_title_id);
 $title_id_result = mysqli_fetch_row($get_title_id);
 
+$insert_title = "INSERT INTO store_inventories VALUES
+('0736','th1218',500,200),
+('5023','th1218',500,400), 
+('1389','th1218',2000,1500);";
+
 // Save title_id as a variable
 $title_id = $title_id_result[0];
 echo "TITLE ID VARIABLE IS $title_id<br>";
@@ -61,16 +66,22 @@ $ord_num_3 = 'th0256';
 echo "ord num variables are $ord_num_1, $ord_num_2, $ord_num_3<br>";
 
 // Save customer sale quantity as variables
-$sale1_qty = 400;
-$sale2_qty = 200;
-$sale3_qty = 1000;
-echo "customer sale qty variables are $sale1_qty, $sale2_qty, $sale3_qty<br>";
+$get_base_sale_qty = 
+"SELECT GREATEST(ABS(qty), minStock) FROM store_inventories WHERE stor_id IN ('$stor_id_1', '$stor_id_2', '$stor_id_3') AND title_id = '$title_id'";
+echo "$get_base_sale_qty<br>";
+$base_sale_qty_result = $db->query($get_base_sale_qty);
+$base_sale_qty = mysqli_fetch_row($base_sale_qty_result);
+
+$customer_sale1_qty = $base_sale_qty[0] + 100;
+$customer_sale2_qty = $base_sale_qty[1] + 100;
+$customer_sale3_qty = $base_sale_qty[2] + 100;
+echo "customer sale qty variables are $customer_sale1_qty, $customer_sale2_qty, $customer_sale3_qty<br>";
 
 // QUERY 2. resulting in customer sales at 3 or more bookstores:
 $query_2 = "INSERT INTO customer_sales VALUES
-($stor_id_1, $title_id, 5, $sale1_qty, $rev_date, 0), 
-($stor_id_2, $title_id, 5, $sale2_qty, $rev_date, 0),
-($stor_id_3, $title_id, 5, $sale3_qty, $rev_date, 0);";
+('$stor_id_1', '$title_id', 5, $customer_sale1_qty, '$rev_date', 0), 
+('$stor_id_2', '$title_id', 5, $customer_sale2_qty, '$rev_date', 0),
+('$stor_id_3', '$title_id', 5, $customer_sale3_qty, '$rev_date', 0);";
 echo "$query_2<br>";
 $result_2 = $db->query($query_2);
 
@@ -92,7 +103,7 @@ $store1_qty = $store1_qty_result[0];
 echo "STORE INVENTORY QTY1 IS $store1_qty<br>";
 
 // Save pending_order_qty1
-$pending_order_qty1 = $sale1_qty - $store1_qty;
+$pending_order_qty1 = $customer_sale1_qty - $store1_qty;
 echo "PENDING ORDER QTY1 IS $pending_order_qty1<br>";
 
 // ********************************** SALE 2 **************************************************
@@ -108,7 +119,7 @@ $store2_qty = $store2_qty_result[0];
 echo "STORE INVENTORY QTY2 IS $store2_qty<br>";
 
 // Save pending_order_qty2
-$pending_order_qty2 = $sale2_qty - $store2_qty;
+$pending_order_qty2 = $customer_sale2_qty - $store2_qty;
 echo "PENDING ORDER QTY2 IS $pending_order_qty2<br>";
 
 // ********************************** SALE 3 **************************************************
@@ -123,7 +134,7 @@ $store3_qty = $store3_qty_result[0];
 echo "STORE INVENTORY QTY3 IS $store3_qty<br>";
  
 // Save pending_order_qty3
-$pending_order_qty3 = $sale3_qty - $store3_qty;
+$pending_order_qty3 = $customer_sale3_qty - $store3_qty;
 echo "PENDING ORDER QTY3 IS $pending_order_qty3<br>";
 
 /////////////////////////////
