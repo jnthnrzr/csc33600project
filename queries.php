@@ -13,13 +13,11 @@ if ($db->connect_error) {
 
 // DELETE entry for DA9543
 $delete_entry = "DELETE FROM store_inventories WHERE title_id='DA9543';";
-// echo "$delete_entry<br>";
 $db->query($delete_entry);
 
 // FOREIGN KEY RELATIONSHIP SET UP FOR store_inventories
 $foreignkey_1 = "ALTER TABLE store_inventories ADD FOREIGN KEY(title_id) REFERENCES titles(title_id);";
 $foreignkey_2 = "ALTER TABLE store_inventories ADD FOREIGN KEY(stor_id) REFERENCES stores(stor_id);";
-// echo "$foreignkey_1<br>";
 // echo "$foreignkey_2<br>";
 $db->query($foreignkey_1);
 $db->query($foreignkey_2);
