@@ -17,8 +17,8 @@ echo "$delete_entry<br>";
 $db->query($delete_entry);
 
 // FOREIGN KEY RELATIONSHIP SET UP FOR store_inventories
-$foreignkey_1 = "ALTER TABLE store_inventories ADD FOREIGN KEY(title_id) references titles(title_id);";
-$foreignkey_2 = "ALTER TABLE store_inventories ADD FOREIGN KEY (stor_id) references stores(stor_id);";
+$foreignkey_1 = "ALTER TABLE store_inventories ADD FOREIGN KEY(title_id) REFERENCES titles(title_id);";
+$foreignkey_2 = "ALTER TABLE store_inventories ADD FOREIGN KEY(stor_id) REFERENCES stores(stor_id);";
 echo "$foreignkey_1<br>";
 echo "$foreignkey_2<br>";
 $db->query($foreignkey_1);
@@ -67,10 +67,11 @@ echo "ord num variables are $ord_num_1, $ord_num_2, $ord_num_3<br>";
 
 // Save customer sale quantity as variables
 $get_base_sale_qty = 
-"SELECT GREATEST(ABS(qty), minStock) FROM store_inventories WHERE stor_id IN ('$stor_id_1', '$stor_id_2', '$stor_id_3') AND title_id = '$title_id'";
+"SELECT GREATEST(ABS(qty), minStock) FROM store_inventories WHERE stor_id IN ('$stor_id_1', '$stor_id_2', '$stor_id_3') AND title_id = '$title_id';";
 echo "$get_base_sale_qty<br>";
 $base_sale_qty_result = $db->query($get_base_sale_qty);
-$base_sale_qty = mysqli_fetch_row($base_sale_qty_result);
+$base_sale_qty = mysqli_fetch_array($base_sale_qty_result);
+echo "$base_sale_qty HERE<br>";
 
 $customer_sale1_qty = $base_sale_qty[0] + 100;
 $customer_sale2_qty = $base_sale_qty[1] + 100;
