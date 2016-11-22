@@ -1,5 +1,5 @@
 <?php
-
+// change info to connect to specific database with authentication
 $host = "HOST";
 $user = "USER";
 $pass = "PASS";
