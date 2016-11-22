@@ -25,13 +25,13 @@ $db->query($foreignkey_2);
 $select_title_id = "SELECT title_id FROM reviews WHERE rev_date IN (SELECT MAX(rev_date) FROM reviews);";
 $get_title_id = $db->query($select_title_id);
 $title_id_result = mysqli_fetch_row($get_title_id);
-/*
+
 $insert_title = "INSERT INTO store_inventories VALUES
 ('0736','th1218',500,200),
 ('5023','th1218',500,400), 
 ('1389','th1218',2000,1500);";
 $insert_title_result = $db->query($insert_title);
-*/
+
 // Save title_id as a variable
 $title_id = $title_id_result[0];
  
